@@ -14,13 +14,10 @@ func main(){
 	}
 	concatenated_args := strings.Join(args, " ")
 	concatenated_args = strings.ToUpper(concatenated_args)
-	for i, v := range concatenated_args{
-		if i == 0{
-			fmt.Println(concatenated_args)
-			continue
-		}
+	fmt.Println(concatenated_args)
+	for i, v := range concatenated_args[1:]{
 		fmt.Printf("%c", v)
-		for j := 1; j < i; j++{
+		for j := 0; j < i; j++{
 			fmt.Printf("%c", ' ')
 		}
 		fmt.Printf("%c\n", v)
