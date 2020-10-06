@@ -24,7 +24,7 @@ For easier use you can avoid using the docker image and use xclip to directly co
 docker run -it --rm <image_name> [-s] [args...] | xclip -selection clipboard
 ```
 
-Probably easier to make a function and add it to your rc file though
+Probably easier to make a function and add it to your rc file though (this will need you to enclose the args in "" or '' though)
 ```sh
 func () {
 	docker run -it --rm <image_name> [-s] $1 | xclip -selection clipboard
