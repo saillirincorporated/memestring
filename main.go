@@ -36,10 +36,10 @@ func stupidmeme(s string){
 func main(){
 	mdFlag := flag.Bool("d", false, "If this is set then the output will be enclosed in ``` for markdown")
 	boolFlag := flag.Bool("s", false, "If this is set then the args will be printed in a stupid manner")
-	inputFlag := flag.String("i", "args", "Set what the input is (<filename> or - for stdin), by default it's the non-flag arguments")
+	inputFlag := flag.String("i", "" , "Set what the input is (<filename> or - for stdin), by default it's the non-flag arguments")
 	flag.Parse()
 	var s string
-	if *inputFlag != "args"{
+	if *inputFlag != ""{
 		var bytes []byte
 		var err error
 		if *inputFlag == "-"{
