@@ -1,0 +1,24 @@
+<form action="javascript:submit()" id="form">
+	<input type="text" name="input">
+	<input type="checkbox" name="stupid" checked>
+	<input type="submit">
+</form>
+
+<p id="result" style="white-space: pre-wrap;"></p>
+
+<script>
+function submit(){
+	var values = document.getElementById("form");
+	var query_string = "?" + "input" + "=" + values.input.value;
+	if(values.stupid.checked)
+		query_string += "&" + "stupid=y"
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4 && this.status == 200) {
+	    document.getElementById("result").innerHTML = this.responseText;
+	  }
+	};
+	xhttp.open("GET", "/memestring" + query_string, true);
+	xhttp.send();
+}
+</script>

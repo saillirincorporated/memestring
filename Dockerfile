@@ -6,7 +6,7 @@ RUN mkdir -p /go/src/memestring
 
 WORKDIR /go/src/memestring
 
-COPY main.go .
+COPY . .
 
 RUN go install
 

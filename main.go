@@ -10,10 +10,13 @@ import (
 	"io/ioutil"
 	"net"
 	"strconv"
+	"net/http"
+	"log"
 )
 
 func dumbmeme(s string) string{
 	var b strings.Builder
+	s = strings.ToUpper(s)
 	b.WriteString(strings.ReplaceAll(s, "\n", " "))
 	b.WriteString("\n")
 	for i, v := range s[1:]{
@@ -59,6 +62,27 @@ func handleClientRequest(conn net.Conn, boolFlag *bool){
 	conn.Close()
 }
 
+func indexHandler(w http.ResponseWriter, r *http.Request){
+	http.ServeFile(w, r, "index.html")
+}
+
+func inputHandler(w http.ResponseWriter, r *http.Request){
+	if err := r.ParseForm(); err != nil{
+		println("Error reading query")
+	}
+	if r.FormValue("stupid") == "y"{
+		fmt.Fprintf(w, "%s", stupidmeme(r.FormValue("input")))
+	}else{
+		fmt.Fprintf(w, "%s", dumbmeme(r.FormValue("input")))
+	}
+}
+
+func httpServer(){
+	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/memestring", inputHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
 func server(boolFlag *bool, portFlag *int, hostFlag *string){
 	var l net.Listener
 	var err error
@@ -87,10 +111,15 @@ func main(){
 	listenFlag := flag.Bool("l", false, "Set this as a server listening on port 1234 of localhost by default")
 	portFlag := flag.Int("p", 1234, "When used in conjunction with -l, use to specify port, defaults to 1234")
 	hostFlag := flag.String("h", "localhost", "When used in conjuction with -l, specifies the IP address to listen to, defaults to localhost")
+	httpFlag := flag.Bool("http", false, "Set this to run it as an http server")
 	flag.Parse()
 
 	if *listenFlag{
 		server(boolFlag, portFlag, hostFlag)
+		os.Exit(0)
+	}else if *httpFlag{
+		httpServer()
+		os.Exit(0)
 	}
 	var s string
 	if *inputFlag != ""{
