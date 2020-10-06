@@ -33,6 +33,7 @@ func stupidmeme(s string){
 }
 
 func main(){
+	mdFlag := flag.Bool("d", false, "If this is set then the output will be enclosed in ``` for markdown")
 	boolFlag := flag.Bool("s", false, "If this is set then the args will be printed in a stupid manner")
 	flag.Parse()
 	if len(flag.Args()) < 1{
@@ -40,10 +41,18 @@ func main(){
 		os.Exit(-1)
 	}
 	concatenated_args := strings.Join(flag.Args(), " ")
+	if *mdFlag{
+		fmt.Println("```")
+	}
+
 	if *boolFlag{
 		stupidmeme(concatenated_args)
 	}else{
 		dumbmeme(concatenated_args)
+	}
+
+	if *mdFlag{
+		fmt.Println("```")
 	}
 	os.Exit(0)
 }
