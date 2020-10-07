@@ -49,6 +49,7 @@ func handleClientRequest(conn net.Conn, boolFlag *bool){
 	var err error = nil
 	var n int
 	for err == nil{
+		conn.SetReadDeadline(time.Now().Add(10 * time.Second))
 		n, err = conn.Read(buf)
 		if err != nil{
 			continue
