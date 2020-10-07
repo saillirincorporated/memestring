@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"net/http"
 	"log"
+	"time"
 )
 
 func dumbmeme(s string) string{
@@ -80,7 +81,12 @@ func inputHandler(w http.ResponseWriter, r *http.Request){
 func httpServer(){
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/memestring", inputHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	server := http.Server{
+		Addr:		":8080",
+		ReadTimeout:	10 * time.Second,
+		WriteTimeout:	10 * time.Second,
+	}
+	log.Fatal(server.ListenAndServe())
 }
 
 func server(boolFlag *bool, portFlag *int, hostFlag *string){
